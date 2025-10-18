@@ -1,30 +1,42 @@
 export function formatCreatorMessage(c) {
-  const socials = [];
-  const s = c.socials || {};
+  const socialLinks = [];
 
-  if (s.twitter?.username)
-    socials.push(`🐦 <b>Twitter:</b> <a href="https://x.com/${s.twitter.username}">@${s.twitter.username}</a> (${c.followers.twitter})`);
-  if (s.farcaster?.username)
-    socials.push(`💬 <b>Farcaster:</b> ${s.farcaster.username} (${c.followers.farcaster})`);
-  if (s.instagram?.username)
-    socials.push(`📸 <b>Instagram:</b> ${s.instagram.username} (${c.followers.instagram})`);
-  if (s.tiktok?.username)
-    socials.push(`🎵 <b>TikTok:</b> ${s.tiktok.username} (${c.followers.tiktok})`);
+  if (c.socials.twitter?.handle)
+    socialLinks.push(`🐦 Twitter: https://twitter.com/${c.socials.twitter.handle}`);
+  if (c.socials.farcaster?.handle)
+    socialLinks.push(`🪄 Farcaster: https://warpcast.com/${c.socials.farcaster.handle}`);
+  if (c.socials.instagram?.handle)
+    socialLinks.push(`📸 Instagram: https://instagram.com/${c.socials.instagram.handle}`);
+  if (c.socials.tiktok?.handle)
+    socialLinks.push(`🎵 TikTok: https://tiktok.com/@${c.socials.tiktok.handle}`);
+
+  const followersText = `
+👥 Followers:
+- Zora: ${c.followers.zora}
+- Twitter: ${c.followers.twitter}
+- Farcaster: ${c.followers.farcaster}
+- Instagram: ${c.followers.instagram}
+- TikTok: ${c.followers.tiktok}
+`.trim();
 
   const text = `
-<b>🔥 New Creator Listed!</b>
+🆕 *New Zora Creator!*
 
-👤 <b>${c.name}</b> (@${c.handle})
-💰 Market Cap: ${c.marketCap}
-📜 Contract: <code>${c.address}</code>
-👥 Followers (Zora): ${c.followers.zora}
+👤 *${c.name || "Unknown"}* (@${c.handle || "n/a"})
+💎 Contract: \`${c.address}\`
 
-${socials.join("\n")}
-  `;
+${followersText}
 
-  const buttons = [
-    [{ text: "🚀 Auto Trade", url: `https://zora.co/creator/${c.handle}` }],
-  ];
+${socialLinks.join("\n")}
 
-  return { text, buttons, photo: c.avatar };
+📈 Market Cap: ${c.marketCap || "?"}
+  `.trim();
+
+  const buttons = {
+    inline_keyboard: [
+      [{ text: "🚀 Auto Trade", url: `https://zora.co/collect/${c.address}` }]
+    ]
+  };
+
+  return { text, buttons };
 }
