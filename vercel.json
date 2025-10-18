@@ -1,8 +1,13 @@
 {
   "functions": {
-    "api/zora-listener.js": {
-      "runtime": "nodejs18.x",
-      "schedule": "@every 2m"
+    "api/index.js": {
+      "runtime": "nodejs20.x"
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/index",
+      "schedule": "*/5 * * * *"
+    }
+  ]
 }
