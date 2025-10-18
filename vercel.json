@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/zora-listener.js": {
+      "runtime": "nodejs18.x",
+      "schedule": "@every 2m"
+    }
+  }
+}
